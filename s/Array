@@ -435,13 +435,17 @@ ARRAYBINARYCONSTDIVFP2
         ADD     R10,R10,#5
  |
 ARRAYBINARYCONSTDIVFP1
-        LDFD    F1,[R8]
+        LDFD    F1,[R8],#8
         DVFD    F1,F1,FACC
-        STFD    F1,[R8],#8
+        STFD    F1,[R10],#8
  ]
         SUBS    AELINE,AELINE,#1
         BNE     ARRAYBINARYCONSTDIVFP1
+ [ FP=0
         LDMFD   SP!,{R0,R1,R8,R10}
+ |
+        LDMFD   SP!,{R8,R10}
+ ]
         B       NXT
 ARRAYBINARYCONST2
         CMP     R5,AELINE

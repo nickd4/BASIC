@@ -274,6 +274,10 @@ LEXICALADR
         CMP     R6,#&7F
         BCC     %58
 56      LDRB    SMODE,[SMODE]          ;get job
+;;; KJB fix for PRINT TRACE,2 or BPUT#TRACE,32
+        TEQ     MODE,#0                ;if introducing keyword on right
+        BICNE   SMODE,SMODE,#1:SHL:4   ;then no constants
+;;; end KJB fix
         TST     SMODE,SMODE,LSR #1     ;if bit 0 of job
         BCC     %60
         STR     R0,[SP,#-4]!

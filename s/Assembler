@@ -385,6 +385,8 @@ CASMLDSTCOMMON2
         BL      AESPAC
         CMP     R10,#"]"
         BEQ     CASMPOST
+        TST     R1,#&200000
+        BNE     ERASSB1
         ADD     R1,R1,#&1000000
         CMP     R10,#","
         BNE     ERCOMM
@@ -428,8 +430,11 @@ CASMPOST
 
         BL      AESPAC
         CMP     R10,#","
-        ADDNE   R1,R1,#&1000000
-        BNE     CASMICHK
+        BEQ     CASMPOST1
+        TST     R1,#&200000
+        ADDEQ   R1,R1,#&1000000
+        B       CASMICHK
+CASMPOST1
         AND     R14,R1,#&F0000000
         TEQ     R14,#&F0000000
         BEQ     CASMICHK
