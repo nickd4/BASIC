@@ -335,6 +335,9 @@ Service_Reset                   *       &27
 Service_UKConfig                *       &28
 Service_UKStatus                *       &29
 
+PaletteV                        *       &23
+paletteV_Set                    *       2
+
         AREA    |BASIC$$Code|, CODE, READONLY, PIC
 
 Module_BaseAddr                 *       .

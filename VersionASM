@@ -11,13 +11,13 @@
                         GBLS    Module_HelpVersion
                         GBLS    Module_ComponentName
                         GBLS    Module_ComponentPath
-Module_MajorVersion     SETS    "1.35"
-Module_Version          SETA    135
+Module_MajorVersion     SETS    "1.36"
+Module_Version          SETA    136
 Module_MinorVersion     SETS    ""
-Module_Date             SETS    "03 Mar 2003"
-Module_ApplicationDate  SETS    "03-Mar-03"
+Module_Date             SETS    "21 Jun 2004"
+Module_ApplicationDate  SETS    "21-Jun-04"
 Module_ComponentName    SETS    "BASIC"
 Module_ComponentPath    SETS    "RiscOS/Sources/Programmer/BASIC"
-Module_FullVersion      SETS    "1.35"
-Module_HelpVersion      SETS    "1.35 (03 Mar 2003)"
+Module_FullVersion      SETS    "1.36"
+Module_HelpVersion      SETS    "1.36 (21 Jun 2004)"
                         END
