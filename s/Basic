@@ -1455,7 +1455,9 @@ NOERRORMSG
         =       "No string from BASICTrans",0
         ALIGN
  ]
-MSG     BIC     R4,R14,#&FC000000      ;byte error
+MSG     SUB     R4,R14,PC
+        ADD     R4,PC,R4
+        SUB     R4,R4,#4               ;byte error
         ADD     R14,ARGP,#STRACC
         MOV     R1,R14
         LDRB    R2,[R4],#1             ;move error number
@@ -1686,7 +1688,9 @@ INSLP2  LDRB    R0,[LINE],#1
         BNE     INSLP2
         LDR     PC,[SP],#4
  [ RELEASEVER=0
-PATOUT  BIC     R2,R14,#&FC000003
+PATOUT  SUB     R2,R14,PC
+        ADD     R2,PC,R2
+        SUB     R2,R2,#4
         BL      PATA
         BL      PATA
         BL      PATA

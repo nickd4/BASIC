@@ -632,7 +632,7 @@ CASMDATASHIFT1
         MOV     R3,R3,LSR #24
         AND     R3,R3,#&F0
         ORR     R1,R1,R3
-        LDRCC   PC,[SP],#4               ;RRX
+        LDRCC   PC,[SP],#4             ;RRX
         CMP     R10,#"#"
         BEQ     CASMDATASHIFTCONST
         TST     R1,#&0C000000
