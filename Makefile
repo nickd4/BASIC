@@ -50,8 +50,8 @@ TARGETS   = rm.${COMPONENT}
 #
 # Generic rules:
 #
-all: rm.BASIC64
-	@echo ${COMPONENT}: BASIC64 module built
+all: rm.BASIC64 rm.BASIC105
+	@echo ${COMPONENT}: BASIC64 and BASIC105 modules built
 
 rom: ${TARGETS}
 	@echo ${COMPONENT}: rom module built
