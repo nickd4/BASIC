@@ -450,7 +450,7 @@ TSTVB1  LDRB    R0,[ARGP,#BYTESM]
         LDR     R0,[ARGP,#ASSPC]
         B       SINSTK
 TSTVBCACHEARRAY
-        BIC     AELINE,AELINE,#TFP
+        SUB     AELINE,AELINE,#TFP
         STR     R14,[SP,#-4]!
         BL      ARLOOKCACHE
         LDR     R14,[SP],#4
@@ -461,7 +461,8 @@ TSTVB   AND     R1,AELINE,#CACHEMASK
         LDMIA   R1,{IACC,R1,R4,TYPE}
         CMP     R4,AELINE
         BNE     TSTVBNOTCACHE
-        ADDS    AELINE,AELINE,R1
+        CMN     R1,#1
+        ADD     AELINE,AELINE,R1
         BMI     TSTVBCACHEARRAY
 VARIND  CMP     TYPE,#4
         BCC     VARBYT
@@ -543,9 +544,10 @@ TSTN    AND     R1,AELINE,#CACHEMASK
         LDMIA   R1,{IACC,R1,R4,TYPE}
         CMP     R4,AELINE
         BNE     TSTNNOTCACHE
-        ADDS    AELINE,AELINE,R1
+        CMN     R1,#1
+        ADD     AELINE,AELINE,R1
         MOVPL   PC,R14
-        BIC     AELINE,AELINE,#TFP
+        SUB     AELINE,AELINE,#TFP
  [ FP=0
         AND     FACCX,TYPE,#255
         AND     FSIGN,TYPE,#TFP

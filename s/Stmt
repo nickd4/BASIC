@@ -857,9 +857,10 @@ NEXTBLNK
         LDMIA   R1,{IACC,R1,R4,TYPE}
         CMP     R4,AELINE
         BNE     NEXTVBNOTCACHE
-        ADDS    AELINE,AELINE,R1
+        CMN     R1,#1
+        ADD     AELINE,AELINE,R1
         BPL     STRIPA
-        BIC     AELINE,AELINE,#TFP     ;array element
+        SUB     AELINE,AELINE,#TFP     ;array element
         BL      ARLOOKCACHE
         BNE     STRIPA
         B       NEXM1

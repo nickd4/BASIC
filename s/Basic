@@ -1013,7 +1013,7 @@ GOTLT1  LDRB    R10,[AELINE],#1
         BCC     EXPRSTORESTMT
         B       LETARRAY
 LETSTCACHEARRAY
-        BIC     AELINE,AELINE,#TFP
+        SUB     AELINE,AELINE,#TFP
         BL      ARLOOKCACHE
         BNE     GOTLT
         B       MISTAK
@@ -1022,7 +1022,8 @@ LETST   AND     R1,LINE,#CACHEMASK
         LDMIA   R1,{IACC,R1,R4,TYPE}
         CMP     R4,LINE
         BNE     LETSTNOTCACHE
-        ADDS    AELINE,LINE,R1
+        CMN     R1,#1
+        ADD     AELINE,LINE,R1
         BMI     LETSTCACHEARRAY
         STMFD   SP!,{IACC,TYPE}
 LETSTSPACE

@@ -308,9 +308,10 @@ LVCONT  AND     R1,AELINE,#CACHEMASK
         LDMIA   R1,{IACC,R1,R4,TYPE}
         CMP     R4,AELINE
         BNE     LVNOTCACHE
-        ADDS    AELINE,AELINE,R1
+        CMN     R1,#1
+        ADD     AELINE,AELINE,R1
         MOVPL   PC,R14
-        BIC     AELINE,AELINE,#TFP
+        SUB     AELINE,AELINE,#TFP
         B       ARLOOKCACHE
 LVNOTCACHE
         MOV     R4,AELINE
