@@ -616,7 +616,7 @@ CRUNCHSTR
         =       0
         ALIGN
  ]
-TITLE   STMFD   SP!,{R0-R14}
+TITLE   STMFD   SP!,{R0-R12,R14}
         SWI     WRITES
 REPSTR  =       "ARM BBC BASIC V"
  [ FP=1
@@ -642,7 +642,7 @@ REPSTR  =       "ARM BBC BASIC V"
         SUB     R1,R1,R0
         MOV     R0,#22
         SWI     BASICTrans_Message
-        LDMVCFD SP!,{R0-R13,PC}
+        LDMVCFD SP!,{R0-R12,PC}
         SWI     WRITES
         =       10,13,"Starting with ",0
         MOV     R0,R1
@@ -651,7 +651,7 @@ REPSTR  =       "ARM BBC BASIC V"
         SWI     WRITES
         =       " bytes free.",10,13,0
         BL      NLINE
-        LDMFD   SP!,{R0-R13,PC}
+        LDMFD   SP!,{R0-R12,PC}
 ENTRYKEYW
         BL      RDCOMCH
         CMP     R2,#"H"
