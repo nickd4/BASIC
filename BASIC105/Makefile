@@ -1,4 +1,4 @@
-# Copyright 1996 Acorn Computers Ltd
+# Copyright 1997 Acorn Computers Ltd
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,15 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Makefile for BASIC
+# Makefile for BASIC105
 #
 # ***********************************
 # ***    C h a n g e   L i s t    ***
 # ***********************************
-# Date       Name   Description
-# ----       ----   -----------
-# 08-Jun-94  AMcC   Created.
-# 08-Nov-94  AMcC   Updated to install BASIC64 (non ROM)
+# Date        Name   	Description
+# ----        ----   	-----------
+# 08-Jun-94   AMcC   	Created.
+# 08-Nov-94   AMcC   	Updated to install BASIC64 (non ROM)
+# 27 Jun 1997 RWB	Split two targets into seperate makefiles
 
 #
 # Paths
@@ -33,9 +34,10 @@ EXP_HDR = <export$dir>
 MKDIR   = cdir
 AS      = aasm
 CP      = copy
+CD	= dir
 RM      = remove
 CCFLAGS = -c -depend !Depend -IC:
-ASFLAGS = -depend !Depend -Stamp -quit -module -To $@ -From
+ASFLAGS = -depend !Depend -Stamp -quit -module
 CPFLAGS = ~cfr~v
 
 TOKENISE = tokenise
@@ -44,62 +46,54 @@ TOKENS   = Hdr:Tokens
 #
 # Program specific options:
 #
-COMPONENT = BASIC
-EXPORTS   = ${EXP_HDR}.BASICTrans
-TARGETS   = rm.BASIC105 \
-            rm.BASICTrans
+COMPONENT = BASIC105
+TARGET    = rm.${COMPONENT}
+SOURCE    = ModuleAB
 
 #
 # Generic rules:
 #
-all: rm.BASIC64
-	@echo ${COMPONENT}: BASIC64 module built
+all: ${TARGET}
+	@echo ${COMPONENT}: module built
 
-rom: ${TARGETS}
+rom: ${TARGET}
 	@echo ${COMPONENT}: rom module built
 
-export: ${EXPORTS}
+export: 
 	@echo ${COMPONENT}: export complete
 
-install: rm.BASIC64
-	${CP} rm.BASIC64 ${INSTDIR}.BASIC64 ${CPFLAGS}
-	Access ${INSTDIR}.BASIC64 WR/r
-	@echo ${COMPONENT}: BASIC64 installed (Disc)
-
-install_rom: ${TARGETS}
-	${CP} rm.BASIC105 ${INSTDIR}.BASIC105 ${CPFLAGS}
-	${CP} rm.BASICTrans ${INSTDIR}.BASICTrans ${CPFLAGS}
+install_rom: ${TARGET}
+	${CP} ${TARGET} ${INSTDIR}.${COMPONENT} ${CPFLAGS}
 	@echo ${COMPONENT}: rom module installed
 
 clean:
-	${RM} rm.BASIC64
-	${RM} rm.BASIC105
-	${RM} rm.BASICTrans
+	${RM} ${TARGET}
+	${RM} rm
 	@echo ${COMPONENT}: cleaned
 
 resources: resources-${CMDHELP}
 	@echo ${COMPONENT}: resource files copied
 
 resources_common:
-	${MKDIR} ${RESDIR}.${COMPONENT}
-	${CP} Resources.${LOCALE}.Messages  ${RESDIR}.${COMPONENT}.Messages  ${CPFLAGS}
+	${MKDIR} ${RESDIR}.BASIC
+	Set BasicRes$Path ^.Resources.${LOCALE}.,^.Resources.UK.
+	TokenCheck BasicRes:Messages
+	${CP} BasicRes:Messages ${RESDIR}.BASIC.Messages ${CPFLAGS}
+	Unset BasicRes$Path
 
 resources-None: resources_common
 	@
 
 resources-: resources_common
-	print Resources.${LOCALE}.CmdHelp { >> ${RESDIR}.${COMPONENT}.Messages }
+	Set BasicRes$Path ^.Resources.${LOCALE}.,^.Resources.UK.
+	TokenCheck BasicRes:CmdHelp
+	print BasicRes:CmdHelp { >> ${RESDIR}.BASIC.Messages }
+	Unset BasicRes$Path
 
-rm.BASIC105: ModuleAB
-	${AS} ${ASFLAGS} ModuleAB
-
-rm.BASIC64: ModuleAB64
-	${AS} ${ASFLAGS} ModuleAB64
-
-rm.BASICTrans: TransSrc
-	${AS} ${ASFLAGS} TransSrc
-
-${EXP_HDR}.BASICTrans: hdr.BASICTrans
-	${CP} hdr.BASICTrans $@ ${CPFLAGS}
+${TARGET}: ^.${SOURCE}
+	${MKDIR} rm
+	${CD} ^
+	${AS} ${ASFLAGS} -To ${COMPONENT}.${TARGET} -From ${SOURCE}
+	${CD} ${COMPONENT}
 
 # Dynamic dependencies:
