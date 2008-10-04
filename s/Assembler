@@ -1439,7 +1439,12 @@ CASMB1  MOV     R1,#&A000000           ;not BL: try branch
 CASMB2  BL      ASMEXPR
         BL      GET2PC
         ADD     R3,R2,#8-3             ;-3 deals with unaligned destination
-        SUB     R3,R0,R3
+        SUBS    R3,R0,R3               ; negative offset?
+        ANDMI   R2,R3,#&FE000000       ; yes.. get hi bits
+        EORPL   R2,R3,#&FE000000       ; no.. toggle hi bits i.e. FE if was 0
+        MOV     R2,R2,LSR #25          ; clear remaining bits
+        TEQ     R2,#&7F                ; test OK state
+        BNE     ERASS2A                ; Bad Address offset
         MOV     R3,R3,LSR #2
         BIC     R3,R3,#&FF000000
         ORR     R1,R1,R3
