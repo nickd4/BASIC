@@ -290,7 +290,7 @@ MAIN    MOV     ARGP,#VARS
         ORRNE   R7,R7,#VFPFLAG_NEON
         STRB    R7,[ARGP,#VFPFLAGS]
         MOV     R0,#0
-        SWI     VFPSupport_Transcendentals
+        SWI     VFPSupport_ElementaryFunctions
         STR     R2,[ARGP,#VFPTRANSCENDENTALS]
  ]
         ADRL    R0,MSGATLINE
